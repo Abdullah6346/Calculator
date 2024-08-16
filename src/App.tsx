@@ -1,35 +1,63 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <section>
+        <div id="calculator">
+          <div className="outputscreen" 
+          ></div>
+          <div className="buttonbox">
+            <button id="clear">AC</button>
+            <button id="equal">=</button>
+            <button className="" id="zero">
+              0
+            </button>
+            <button className="" id="one">
+              1
+            </button>
+            <button className="" id="two">
+              2
+            </button>
+            <button className="" id="three">
+              3
+            </button>
+            <button className="" id="four">
+              4
+            </button>
+            <button className="" id="five">
+              5
+            </button>
+            <button className="" id="six">
+              6
+            </button>
+            <button className="" id="seven">
+              7
+            </button>
+            <button className="" id="eight">
+              8
+            </button>
+            <button className="" id="nine">
+              9
+            </button>
+            <button id="decimal">.</button>
+            <button className="" id="add">
+              +
+            </button>
+            <button className="" id="subtract">
+              -
+            </button>
+            <button className="" id="multiply">
+              ×
+            </button>
+            <button className="" id="divide">
+              ÷
+            </button>
+          </div>
+         </div>
+      </section>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
