@@ -11,8 +11,6 @@ const btnnvalues = [
   ["1", "2", "3", "+"],
   ["0", ".", "="],
 ];
-const toLocaleString = (num) =>
-  String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
 
 const removeSpaces = (num) => num.toString().replace(/\s/g, "");
 function App() {
