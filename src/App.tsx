@@ -12,7 +12,8 @@ const btnnvalues = [
   ["0", ".", "="],
 ];
 
-const removeSpaces = (num) => num.toString().replace(/\s/g, "");
+const removeSpaces = (num: string | number) =>
+  num.toString().replace(/\s/g, "");
 function App() {
   const [Cal, setCal] = useState({
     sign: "",
@@ -41,26 +42,27 @@ function App() {
       res: !Cal.sign ? 0 : Cal.res,
     });
   };
-
-  const commaClickHandler = (e) => {
+  const commaClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const value = e.target.innerHTML;
+    const value = e.currentTarget.innerHTML;
+    const numericValue = parseFloat(value);
     setCal({
       ...Cal,
-      num: !value.toString().includes(".") ? Cal.num + value : Cal.num,
+      num: !value.toString().includes(".") ? Cal.num + numericValue : Cal.num,
     });
   };
 
-  const signClickHandler = (e) => {
-    e.preventDefault();
-    const value = e.target.innerHTML;
-    setCal({
-      ...Cal,
-      sign: value,
-      res: !Cal.res && Cal.num ? Cal.num : Cal.res,
-      num: 0,
-    });
-  };
+const signClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  e.preventDefault();
+  const value = e.currentTarget.innerHTML; 
+  setCal({
+    ...Cal,
+    sign: value,
+    res: !Cal.res && Cal.num ? Cal.num : Cal.res,
+    num: 0,
+  });
+};
+
 
   const equalClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
