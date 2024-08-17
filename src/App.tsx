@@ -11,6 +11,10 @@ const btnnvalues = [
   ["1", "2", "3", "+"],
   ["0", ".", "="],
 ];
+const toLocaleString = (num) =>
+  String(num).replace(/(?<!\..*)(\d)(?=(?:\d{3})+(?:\.|$))/g, "$1 ");
+
+const removeSpaces = (num) => num.toString().replace(/\s/g, "");
 function App() {
   const [Cal, setCal] = useState({
     sign: "",
@@ -25,28 +29,85 @@ function App() {
       num:
         Cal.num === 0 && value === "0"
           ? "0"
-          : Cal.num % 1 === 0
-            ? Number(Cal.num + value)
-            : Cal.num + value,
+          : removeSpaces(Cal.num) % 1 === 0
+            ? toLocaleString(Number(removeSpaces(Cal.num + value)))
+            : toLocaleString(Cal.num + value),
       res: !Cal.sign ? 0 : Cal.res,
     });
   };
-
-  const handleOnClick = (btn: string) => {
-    btn === "C"
-      ? clearClickHandler
-      : btn === "+-"
-        ? invertClickHandler
-        : btn === "%"
-          ? percentClickHandler
-          : btn === "+" || btn === "-" || btn === "X" || btn === "/"
-            ? signClickHandler
-            : btn === "."
-              ? commaClickHandler
-              : btn === "="
-                ? equalClickHandler
-                : numClickHandler;
+  const commaClickHandler = (e) => {
+    e.preventDefault();
+    const value = e.target.innerHTML;
+    setCal({
+      ...Cal,
+      num: !value.toString().includes(".") ? Cal.num + value : Cal.num,
+    });
   };
+  const signClickHandler = (e) => {
+    e.preventDefault();
+    const value = e.target.innerHTML;
+    setCal({
+      ...Cal,
+      sign: value,
+      res: !Cal.num && Cal.res ? Cal.num : Cal.res,
+      num: 0,
+    });
+  };
+  const equalClickHandler = (e) => {
+    e.preventDefault();
+    if (Cal.num && Cal.sign) {
+      const calculation = (a: number, b: number, sign: string) =>
+        sign === "+"
+          ? a + b
+          : sign === "-"
+            ? a - b
+            : sign === "X"
+              ? a * b
+              : a / b;
+      setCal({
+        ...Cal,
+        res:
+          Cal.num === 0 && Cal.sign === "/"
+            ? 404
+            : toLocaleString(
+                calculation(
+                  Number(removeSpaces(Cal.res)),
+                  Number(removeSpaces(Cal.num)),
+                  Cal.sign,
+                ),
+              ),
+        sign: "",
+        num: 0,
+      });
+    }
+  };
+  const invertClickHandler = () => {
+    setCal({
+      ...Cal,
+      num: Cal.num ? Cal.num * -1 : 0,
+      res: Cal.res ? Cal.res * -1 : 0,
+      sign: " ",
+    });
+  };
+  const percentClickHandler = () => {
+    let num = Cal.num ? Cal.num : 0;
+    let res = Cal.res ? Cal.res : 0;
+    setCal({
+      ...Cal,
+      num: (num /= Math.pow(100, 1)),
+      res: (res /= Math.pow(100, 1)),
+      sign: "",
+    });
+  };
+  const resetClickHandler = () => {
+    setCal({
+      ...Cal,
+      sign: "",
+      num: 0,
+      res: 0,
+    });
+  };
+
   return (
     <>
       <Wrapper>
@@ -57,7 +118,24 @@ function App() {
               <Button
                 key={i}
                 className={btn === "=" ? "equals" : ""}
-                onClick={handleOnClick}
+                onClick={
+                  btn === "C"
+                    ? resetClickHandler
+                    : btn === "+-"
+                      ? invertClickHandler
+                      : btn === "%"
+                        ? percentClickHandler
+                        : btn === "+" ||
+                            btn === "-" ||
+                            btn === "X" ||
+                            btn === "/"
+                          ? signClickHandler
+                          : btn === "."
+                            ? commaClickHandler
+                            : btn === "="
+                              ? equalClickHandler
+                              : numClickHandler
+                }
                 value={btn}
               />
             );
