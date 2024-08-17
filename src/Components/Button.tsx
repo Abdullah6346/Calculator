@@ -2,7 +2,7 @@ import "./Button.css";
 interface Button {
   className?: string;
   value: React.ReactNode;
-  onClick: () => void;
+  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
 }
 const Button: React.FC<Button> = ({ className = "", value, onClick }) => {
   return (
