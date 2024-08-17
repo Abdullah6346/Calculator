@@ -1,6 +1,10 @@
-import React from "react";
+import { ReactNode } from "react";
 
-const ButtonBox = ({ children }) => {
+interface ButtonBox {
+  children: ReactNode;
+}
+
+const ButtonBox: React.FC<ButtonBox> = ({ children }) => {
   return (
     <div
       id="buttonbox"
