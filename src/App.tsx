@@ -17,14 +17,29 @@ function App() {
     res: 0,
     num: 0,
   });
-  const handleOnClick = () => {
+  const numClickHandler = (e) => {
+    e.preventDefault();
+    const value = e.target.innerHTML;
+    setCal({
+      ...Cal,
+      num:
+        Cal.num === 0 && value === "0"
+          ? "0"
+          : Cal.num % 1 === 0
+            ? Number(Cal.num + value)
+            : Cal.num + value,
+      res: !Cal.sign ? 0 : Cal.res,
+    });
+  };
+
+  const handleOnClick = (btn: string) => {
     btn === "C"
       ? clearClickHandler
       : btn === "+-"
         ? invertClickHandler
         : btn === "%"
           ? percentClickHandler
-          : btn === "+" || "-" || "X" || "/"
+          : btn === "+" || btn === "-" || btn === "X" || btn === "/"
             ? signClickHandler
             : btn === "."
               ? commaClickHandler
