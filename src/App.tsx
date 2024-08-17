@@ -22,17 +22,24 @@ function App() {
     num: 0,
   });
 
-  const numClickHandler = (e) => {
+  const numClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    const value = e.target.innerHTML;
+    const value = e.currentTarget.innerHTML;
+
+    const cleanNum = removeSpaces(Cal.num.toString());
+
+    let newNum: number;
+
+    if (Cal.num === 0 && value === "0") {
+      newNum = 0;
+    } else {
+      const combinedValue = cleanNum + value;
+      newNum = Number(removeSpaces(combinedValue));
+    }
+
     setCal({
       ...Cal,
-      num:
-        Cal.num === 0 && value === "0"
-          ? "0"
-          : removeSpaces(Cal.num) % 1 === 0
-            ? toLocaleString(Number(removeSpaces(Cal.num + value)))
-            : toLocaleString(Cal.num + value),
+      num: newNum,
       res: !Cal.sign ? 0 : Cal.res,
     });
   };
@@ -57,10 +64,10 @@ function App() {
     });
   };
 
-  const equalClickHandler = (e) => {
+  const equalClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (Cal.num && Cal.sign) {
-      const calculation = (a: number, b: number, sign: string) =>
+      const calculation = (a: number, b: number, sign: string): number =>
         sign === "+"
           ? a + b
           : sign === "-"
@@ -68,18 +75,16 @@ function App() {
             : sign === "X"
               ? a * b
               : a / b;
+
+      const result = calculation(
+        Number(removeSpaces(Cal.res)),
+        Number(removeSpaces(Cal.num)),
+        Cal.sign,
+      );
+
       setCal({
         ...Cal,
-        res:
-          Cal.num === 0 && Cal.sign === "/"
-            ? 404
-            : toLocaleString(
-                calculation(
-                  Number(removeSpaces(Cal.res)),
-                  Number(removeSpaces(Cal.num)),
-                  Cal.sign,
-                ),
-              ),
+        res: Cal.num === 0 && Cal.sign === "/" ? 404 : result,
         sign: "",
         num: 0,
       });
