@@ -21,6 +21,7 @@ function App() {
     res: 0,
     num: 0,
   });
+
   const numClickHandler = (e) => {
     e.preventDefault();
     const value = e.target.innerHTML;
@@ -35,6 +36,7 @@ function App() {
       res: !Cal.sign ? 0 : Cal.res,
     });
   };
+
   const commaClickHandler = (e) => {
     e.preventDefault();
     const value = e.target.innerHTML;
@@ -43,16 +45,18 @@ function App() {
       num: !value.toString().includes(".") ? Cal.num + value : Cal.num,
     });
   };
+
   const signClickHandler = (e) => {
     e.preventDefault();
     const value = e.target.innerHTML;
     setCal({
       ...Cal,
       sign: value,
-      res: !Cal.num && Cal.res ? Cal.num : Cal.res,
+      res: !Cal.res && Cal.num ? Cal.num : Cal.res,
       num: 0,
     });
   };
+
   const equalClickHandler = (e) => {
     e.preventDefault();
     if (Cal.num && Cal.sign) {
@@ -81,6 +85,7 @@ function App() {
       });
     }
   };
+
   const invertClickHandler = () => {
     setCal({
       ...Cal,
@@ -89,6 +94,7 @@ function App() {
       sign: " ",
     });
   };
+
   const percentClickHandler = () => {
     let num = Cal.num ? Cal.num : 0;
     let res = Cal.res ? Cal.res : 0;
@@ -99,6 +105,7 @@ function App() {
       sign: "",
     });
   };
+
   const resetClickHandler = () => {
     setCal({
       ...Cal,
